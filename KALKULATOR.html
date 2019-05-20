@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+
+ <div class="container">
+     <div class="slidecontainer">
+        <p class="kapital fir">Ile chcesz zainwestować?</p>
+         <form action="." id="form">
+            <div class="quantity">
+    
+                <input type="number" name="amountInput" min="10000" max="500000" value="10000" 
+                id="amountInput"
+onchange="this.nextElementSibling.value=this.value"
+              oninput="amountRange.value = amountInput.value"
+               class="zakres"
+               style="width: 150px;"/>   
+                <span class="currency">zł</span>
+         
+              <input type="range" name="amountRange" min="10000" max="500000" value="10000" 
+                id="ageInputId"
+                class="zakres"
+         onchange="this.previousElementSibling.value=this.value"
+             oninput="amountInput.value = ageInputId.value"
+               style="width: 200px;display: block;"
+               />
+           
+        <input type="submit" id="submit" style="display:none;" />
+              
+               
+              <div id="demo"></div>
+              
+             <div id="test"></div>
+            </div>
+            </form>
+    </div>
+
+
+    <div class="slidecontainer">
+         <p class="kapital">Czas inwestycji w latach</p>
+         <output id="amount" name="amount" for="zakres2">1</output>
+          <input type="range" min="1" max="10" id="zakres2" name="zakres2"
+            step="1"
+            value="1"
+            style="width: 200px;"
+            oninput="amount.value=zakres2.value"/>
+    
+
+ 
+          <div id="demo2"></div>
+           <div id="test2"></div>
+    </div>
+    <div class="slidecontainer but">
+    
+        <button id="button">Oblicz</button>
+        
+    </div>
+
+    <div class="slidecontainer">
+          <div class=wynik><div class="kapital">Twój zysk: </div>
+          <div id="result"></div></div>
+
+
+
+
+
+    </div>
+
+    <div class="div_five">
+    <p>*Powyższy wynik stanowi jedynie symulację. Minimalna kwota inwestycji to 10 000 zł.</p></div>
+
+</div>
+
+<script>
+
+    $('#input').keyup(function() {
+    if (!$('#form')[0].checkValidity()) {
+        $('#submit').click();
+    }
+});
+$('#button').click(function() {
+    if (!$('#form')[0].checkValidity()) {
+        $('#submit').click();
+    }
+});
+    
+
+   $('#button').click(function(){
+   
+});
+
+$(document).ready(function() {
+    $('#button:first').click();
+})
+
+    var ta = 0;
+    var zmienna = 0;
+     var ostatnia = 0; 
+    var nowa = 0; 
+    var nowa2 = 0; 
+        var nowa = 0; 
+            var zmienna2 = 0;
+  function wszystko(){
+      
+      
+      var suwak2 = document.getElementById("amountInput");
+     
+     if (suwak2.value >= 10000 && suwak2.value <= 500000){
+      
+        $("input.zakres").on('focusin', function(){
+            console.log("Saving value " + $(this).val());
+           $(this).data('val', $(this).val());
+       });
+     
+    
+
+var suwak2 = document.getElementById("amountInput");
+     
+   
+    
+            var defValue1 = suwak2.defaultValue;
+            var currvalue1 = suwak2.value;
+            
+        
+            
+            if (defValue1 == currvalue1) {
+
+                var output = document.getElementById("demo");
+                 
+               output.innerHTML = currvalue1; 
+          
+            nowa = currvalue1 * 0.07;
+                
+            document.getElementById("test").innerHTML = "wynik: " +currvalue1 +"wynik: " +nowa.toFixed(0);
+            ta = nowa.toFixed(0);
+                
+            } else {
+                    
+                
+                $('input.zakres').on('change', function(){
+           var prev = $(this).data('val');
+            var current = $(this).val();
+            console.log("Prev value " + prev);
+            console.log("New value " + current);
+            var output = document.getElementById("demo");
+                   
+     
+             
+           
+      
+            output.innerHTML = current; 
+          
+            nowa = current * 0.07;
+                   
+            document.getElementById("test").innerHTML = "wynik: " +current +"wynik: " +nowa.toFixed(0);
+            ta = nowa.toFixed(0);
+
+       });
+ 
+            }
+
+            var suwak2 = document.getElementById("zakres2"); 
+            var defValue = suwak2.defaultValue;
+            var currvalue = suwak2.value;
+           
+        
+            
+            if (defValue == currvalue) {
+                
+               var output = document.getElementById("demo2");
+                
+               output.innerHTML = currvalue; 
+          
+            ostatnia = nowa.toFixed(0) * defValue;
+                
+          
+                
+               
+           
+             
+                
+                
+                    var html = document.getElementById("test2").innerHTML = +ostatnia +" zł";
+                
+               
+                        document.getElementById('result').innerHTML = html;
+                
+            } else {
+                  
+                    ostatnia = nowa.toFixed(0) * currvalue;
+                    var html = document.getElementById("test2").innerHTML = +ostatnia +" zł";
+                        document.getElementById('result').innerHTML = html;
+                    
+                 
+                
+              
+            }
+        
+                             
+}
+  
+   
+  }
+            
+        
+
+    
+document.getElementById('button').addEventListener('click', wszystko,);
+    
+    
+jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity #amountInput');
+    jQuery('.quantity').each(function() {
+      var spinner = jQuery(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue + 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue - 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+    });
+    
+</script>
+<div style="clear: both">&nbsp;</div>
+
+</body>
+</html>
+<style>
+.div_five{width:100%;text-align:center;font-size:12px;margin-top:70px;}
+
+
+.container{display:flex; flex-wrap: wrap;align-content:center;
+flex-direction: row; justify-content:space-evenly; }
+
+span.currency{padding-left: 10px; line-height:43px;font-size:24px;}
+
+.kapital.fir{margin-bottom:20px;margin-top: 20px;}
+#result{color: #f37321;font-family: 'Fira Sans', Arial, Helvetica, sans-serif;font-size: 46px;font-weight: 700;float:left;line-height:40px;}
+    #amount{display: block;margin:0 auto;font-size: 24px;line-height:35px;}
+
+.kapital{margin-top: 20px;margin-bottom:30px;line-height: 30px;color: #f37321;font-family: 'Fira Sans', Arial, Helvetica, sans-serif;font-size: 18px;font-weight: 700;}
+
+.slidecontainer.but{align-self: center;}
+    
+
+.slidecontainer{justify-content:space-evenly;}
+  
+
+ 
+
+    #button{background: #f37321;   min-width: 111px;
+   
+        font-family: 'Fira Sans', Arial, Helvetica, sans-serif;
+color: #ffffff;
+border: 0;
+    font-size: 18px;
+    border-radius: 0px;
+        text-transform: none !important;
+letter-spacing: 1px;
+font-weight: 200 !important;
+        padding: 15px 25px 15px 25px;
+        box-shadow:0px;
+        line-height: 1 !important;
+        cursor: pointer;
+
+
+    }
+    
+    #demo{display: none;}    
+      #demo2{display: none;}  
+      #test{display: none;}  
+      #test2{display: none;}  
+    
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+   margin: 9.15px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2.7px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+  background: #cccccc;
+  border-radius: 1.3px;
+  border: 0.2px solid #cccccc;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  border: 0px solid rgba(243, 115, 33, 0);
+  height: 21px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(243, 115, 33, 0.79);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -9.35px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #ffffff;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 2.7px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+  background: #cccccc;
+  border-radius: 1.3px;
+  border: 0.2px solid #cccccc;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  border: 0px solid rgba(243, 115, 33, 0);
+  height: 21px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(243, 115, 33, 0.79);
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 2.7px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #525252;
+  border: 0.2px solid #cccccc;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+}
+input[type=range]::-ms-fill-upper {
+  background: #cccccc;
+  border: 0.2px solid #cccccc;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  border: 0px solid rgba(243, 115, 33, 0);
+  height: 21px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(243, 115, 33, 0.79);
+  cursor: pointer;
+  height: 2.7px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #cccccc;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #ffffff;
+}
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 9.15px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2.7px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+  background: #cccccc;
+  border-radius: 1.3px;
+  border: 0.2px solid #cccccc;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  border: 0px solid rgba(243, 115, 33, 0);
+  height: 21px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(243, 115, 33, 0.79);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -9.35px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #ffffff;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 2.7px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+  background: #cccccc;
+  border-radius: 1.3px;
+  border: 0.2px solid #cccccc;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  border: 0px solid rgba(243, 115, 33, 0);
+  height: 21px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(243, 115, 33, 0.79);
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 2.7px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #525252;
+  border: 0.2px solid #cccccc;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+}
+input[type=range]::-ms-fill-upper {
+  background: #cccccc;
+  border: 0.2px solid #cccccc;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 0.7px #dddddd, 0px 0px 1px #eaeaea;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  border: 0px solid rgba(243, 115, 33, 0);
+  height: 21px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(243, 115, 33, 0.79);
+  cursor: pointer;
+  height: 2.7px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #cccccc;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #ffffff;
+}
+.quantity {
+  position: relative;
+  margin-bottom:20px;
+}      
+    
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]
+{
+  -moz-appearance: textfield;
+}
+
+.quantity input[type=number] {
+  width: 45px;
+  height: 42px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  border: 1px solid #eee;
+  font-size:20px;
+  color: #777;
+}
+
+.quantity input:focus {
+  outline: 0;
+}
+
+.quantity-nav {
+  float: left;
+  position: relative;
+  height: 42px;
+}
+     
+   
+   
+    
+    
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+  width: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  line-height: 1.7;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.quantity-button.quantity-up {
+  position: absolute;
+  height: 50%;
+  top: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.quantity-button.quantity-down {
+  position: absolute;
+  bottom: -1px;
+  height: 50%;
+}    
+    
+@media (max-width: 620px) {#button{min-width:170px;margin-top:20px;}}
+</style>
